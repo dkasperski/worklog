@@ -1,0 +1,29 @@
+{% block notifications %}
+    {% for flash_message in app.session.flashBag.get('info') %}
+        <div class="flash-notice">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {% for flash_message in app.session.flashBag.get('error') %}
+        <div class="flash-error">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block stylesheet %}
+    <head>
+        <link href="{{ asset('bundles/worklog/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    </head>
+{% endblock %}
+
+{% block body %}{% endblock %}
+
+{% block scripts %}
+    <script src="{{ asset('bundles/worklog/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/worklog/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+{% endblock %}

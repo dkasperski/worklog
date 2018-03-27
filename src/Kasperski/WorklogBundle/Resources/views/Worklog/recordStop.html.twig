@@ -1,0 +1,21 @@
+{% extends '@Worklog/Worklog/layout.html.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('bundles/worklog/css/worklogForm.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            {{ form_label(form.comment, 'kasperski.worklog.stop.form.comment.label'|trans, {'label_attr': {'class': 'foo'}}) }}
+            {{ form_widget(form.comment, {'attr': {'class': 'foo'}}) }}
+
+            {{ form_row(form.save, { 'label': 'kasperski.worklog.stop.form.submit'|trans }) }}
+            <input class="worklog-cancel" type="button" onclick="location.href='{{ path('kasperski_worklog') }}';" value="cancel" />
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

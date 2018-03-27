@@ -1,0 +1,40 @@
+services:
+    kasperski.worklog.creator:
+        class: Kasperski\WorklogBundle\Services\WorklogCreator
+        arguments: ["@kasperski.worklog.command.dispatcher", "@kasperski.worklog.command.factory"]
+    kasperski.worklog.command.dispatcher:
+        class: Kasperski\WorklogBundle\Command\WorklogCommandDispatcher
+        arguments: ["@kasperski.worklog.repository.write.session", "@kasperski.worklog.repository.write.doctrine"]
+    kasperski.worklog.command.factory:
+        class: Kasperski\WorklogBundle\Command\WorklogCommandFactory
+        arguments: ["@security.token_storage", "@kasperski.worklog.repository.read.session"]
+    kasperski.worklog.repository.write.session:
+        class: Kasperski\WorklogBundle\Repository\Write\WorklogSessionWriteRepository
+        arguments: ["@session"]
+    kasperski.worklog.repository.read.session:
+        class: Kasperski\WorklogBundle\Repository\Read\WorklogSessionReadRepository
+        arguments: ["@session", "@translator"]
+    kasperski.worklog.pause:
+        class: Kasperski\WorklogBundle\Services\WorklogPause
+        arguments: ["@kasperski.worklog.command.dispatcher", "@kasperski.worklog.command.factory"]
+    kasperski.worklog.resume:
+        class: Kasperski\WorklogBundle\Services\WorklogResume
+        arguments: ["@kasperski.worklog.command.dispatcher", "@kasperski.worklog.command.factory"]
+    kasperski.worklog.stop:
+        class: Kasperski\WorklogBundle\Services\WorklogStop
+        arguments: ["@kasperski.worklog.command.dispatcher", "@kasperski.worklog.command.factory"]
+    kasperski.worklog.repository.write.doctrine:
+        class: Kasperski\WorklogBundle\Repository\Write\WorklogDoctrineWriteRepository
+        arguments: ["@doctrine.orm.entity_manager"]
+    kasperski.worklog.repository.read.doctrine:
+        class: Kasperski\WorklogBundle\Repository\Read\WorklogDoctrineReadRepository
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+    kasperski.worklog.history.export:
+        class: Kasperski\WorklogBundle\Services\WorklogHistoryExport
+        arguments: ["@kasperski.worklog.export.history.factory", "@kasperski.worklog.repository.read.doctrine"]
+    kasperski.worklog.export.history.factory:
+        class: Kasperski\WorklogBundle\Export\WorklogHistoryExportFactory
+        arguments: ["@kasperski.worklog.export.history.manager"]
+    kasperski.worklog.export.history.manager:
+        class: Kasperski\WorklogBundle\Export\WorklogExportManager
+        arguments: ["%kasperski_worklog_export_type%"]

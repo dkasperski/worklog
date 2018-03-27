@@ -1,0 +1,15 @@
+<h1>Worklog</h1>
+{% if app.user %}
+    <p>
+        go to your
+        <a href="{{ path('kasperski_worklog') }}">worklog</a>
+    </p>
+    <p>
+        <a href="{{ path('fos_user_security_logout') }}">logout</a>
+    </p>
+{% else %}
+    <p>
+        please login to log your work:
+        <a href="{{ path('fos_user_security_login') }}">login</a>
+    </p>
+{% endif %}

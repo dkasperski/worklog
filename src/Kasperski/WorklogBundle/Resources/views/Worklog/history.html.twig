@@ -1,0 +1,57 @@
+{% extends '@Worklog/Worklog/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <h2>{{ 'kasperski.worklog.history.h2'|trans }}</h2>
+        <p>{{ 'kasperski.worklog.history.description'|trans }}</p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>{{ 'kasperski.worklog.history.th.id'|trans }}</th>
+                <th>{{ 'kasperski.worklog.history.th.startedAt'|trans }}</th>
+                <th>{{ 'kasperski.worklog.history.th.stoppedAt'|trans }}</th>
+                <th>{{ 'kasperski.worklog.history.th.comment'|trans }}</th>
+                <th>{{ 'kasperski.worklog.history.th.timeSpentInSeconds'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for worklog in worklogs %}
+            <tr>
+                <td>{{ worklog.id }}</td>
+                <td>{{ worklog.startedAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ worklog.stoppedAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ worklog.comment }}</td>
+                <td>{{ worklog.timeSpentInSeconds }}</td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p>Zakres dat do filtrowania: <input type="text" class="datepicker"></p>
+
+        {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+
+        <form method="post" action="{{ currentPath }}">
+            <input class="btn btn-primary" type="submit" value="Eksport">
+        </form>
+    </div>
+
+    {% include '@Worklog/Worklog/partials/pagination.html.twig' %}
+
+    {% block scripts %}
+        {{ parent() }}
+
+        <script>
+            $('.datepicker').daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD'
+            }},
+            function(start, end) {
+                var route = "{{ path('kasperski_worklog_history')|escape('js') }}";
+                window.location.href = route + "/1/" + start.format('YYYY-MM-DD') + "/" + end.format('YYYY-MM-DD');
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

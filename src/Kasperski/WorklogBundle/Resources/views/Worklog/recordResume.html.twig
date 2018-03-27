@@ -1,0 +1,10 @@
+{% extends '@Worklog/Worklog/layout.html.twig' %}
+
+{% block body %}
+    <p>
+        <input class="btn-info" type="button" onclick="location.href='{{ path('kasperski_worklog_record_pause') }}';" value="pause your work" />
+    </p>
+    <p>
+        <input class="btn-info" type="button" onclick="location.href='{{ path('kasperski_worklog_record_stop') }}';" value="stop your work" />
+    </p>
+{% endblock %}
